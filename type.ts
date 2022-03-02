@@ -1,11 +1,44 @@
-// string
-const fullName: string = "Фродо Бэггинс";
+import { type } from "os";
 
-// number
+const str: string = "Фродо Бэггинс";
+
 const age: number = 18;
 
-// boolean
 const hasRing: boolean = true;
+
+const id: symbol = Symbol();
+
+const big: bigint = 5400n
+
+const b: null = null
+
+const c: undefined = undefined
+
+const obj: object = {
+	name: "Victor"
+}
+
+//:any value
+const str2: any = 'Gogi'
+
+//:safe replacement any
+// let myUnKnow: unknown;
+// myUnKnow.length
+let myUnKnow: unknown;
+if (typeof myUnKnow === 'string') myUnKnow.length   //already has a type string
+
+//it is better to use rarely
+const myVariable: unknown = 'vovo';
+(myVariable as string).length;
+
+
+type StrNumNull = string | number | null;
+let manyType: StrNumNull;
+manyType = 42;
+manyType = 'vovo';
+manyType = null;
+
+
 
 // undefined, null или boolean
 let isSauronAlive: undefined | null | boolean = undefined;
@@ -17,11 +50,32 @@ const friends: string[] = ["Гэндальф", "Сэм", "Мерри", "Пипп
 
 const enemies: Array<string> = ["Саурон", "Саруман"];
 
+const v: Array<string | number> = [1, 2, 'vov']
+const bob: (number | string)[] = [1, 2, 'dod']
+
+const strNum: [string, number] = ['vov', 2]
+
+const strNumBool: [string, number, ...boolean[]] = ['vov', 2, false, true]
+
+function sum(a: number, b: number): number {
+	return a + b
+}
+
+const arrowFun = (a: number, b: number): number => {
+	return Math.pow(a, b)                 //возведение в степень
+}
+
+//if the function returns nothing
+const n = (message: string): void => {
+	console.log(message)
+}
+
+
 // Реализовать interface Person
 interface Person {
-	fullName: string;
+	readonly fullName: string;   //?  cannot redefine
 	address: string;
-	age: number;
+	age?: number;       //?   ? - property not necessary
 }
 
 const sam: Person = {
@@ -33,8 +87,9 @@ const sam: Person = {
 const pippin: Person = {
 	fullName: "Перегрин Тук",
 	address: "Шир",
-	age: 17
 };
+
+
 
 // Реализовать type Wizard
 type Wizard = {
@@ -45,6 +100,73 @@ const gandalf: Wizard = {
 	fullName: "Гэндальф Серый",
 	address: "Валинор"
 };
+
+//:expand (Расширить) interface
+interface Admin extends Person {
+	canBan: boolean;
+}
+const admin1: Admin = {
+	fullName: "Сэмуайз Гэмджи",
+	address: "Шир",
+	age: 17,
+	canBan: true,
+};
+const admin2: Admin = {
+	fullName: "Перегрин Тук",
+	address: "Шир",
+	canBan: false,
+};
+
+//: Обьединить типы через пересечение
+type AdminPerson = Person & {
+	canBan: boolean;
+};
+const admin3: AdminPerson = {
+	fullName: "Сэмуайз Гэмджи",
+	address: "Шир",
+	age: 17,
+	canBan: true,
+};
+const admin4: AdminPerson = {
+	fullName: "Перегрин Тук",
+	address: "Шир",
+	canBan: false,
+};
+
+//:когда не известно название свойств обьектов, известен тип значений
+type IndexType = {
+	[key: string]: number;
+}
+const m: IndexType = {
+	age: 12,
+}
+//:тоже самое через интефейс
+interface IndexTypeInterface {
+	[key: string]: number
+}
+
+//: когда изв назв св-в  и этих св-в один тип (в interface нельзя исп)
+type keyName = "age" | "amount"
+type IndexLimitredType = {
+	[key in keyName]: number;  // in оператор typeScript
+}
+const q:IndexLimitredType = {
+	age: 3,
+	amount: 2,
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // interface & class
 //
