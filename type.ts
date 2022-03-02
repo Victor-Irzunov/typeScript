@@ -1,3 +1,4 @@
+import { runMain } from "module";
 import { type } from "os";
 
 const str: string = "Фродо Бэггинс";
@@ -150,10 +151,160 @@ type keyName = "age" | "amount"
 type IndexLimitredType = {
 	[key in keyName]: number;  // in оператор typeScript
 }
-const q:IndexLimitredType = {
+const q: IndexLimitredType = {
 	age: 3,
 	amount: 2,
 }
+
+//:Class
+interface Connection1 {
+	request(url: string): any;
+}
+class FetchService implements Connection1 {
+	request(url: string): any {
+		return fetch(url).then(result => result.json())
+	}
+}
+const fetchPost = new FetchService();
+fetchPost
+	.request('https://')
+	.then(data => console.log(data))
+
+//: переиспользовать функции с разными аргументами
+//- джинерики (любой тип)
+function echo1<T>(data: T) {
+	return data;
+}
+const num: number = 13
+const f1 = echo1<string>('vovo')
+const f2 = echo1(num)
+
+//:если надо два джинерика
+function echo2<T, S>(data: T, data2: S) {
+	return data;
+}
+
+
+//:
+interface Connection2<T> {
+	request(url: string): Promise<T>;
+}
+class FetchService2<P> implements Connection2<P> {
+	request(url: string): Promise<P> {
+		return fetch(url).then(result => result.json())
+	}
+}
+interface Post {
+	id: number;
+	userId: number;
+	title: string;
+	completed: string;
+}
+
+const fetchPost2 = new FetchService2<Post>();
+fetchPost
+	.request('https://jsonplaceholder.typicode.com/todos/1')
+	.then(data => console.log(data))
+
+
+//:
+function getLength<T extends {length: number}>(data: T) {
+	return data.length;
+}
+getLength('vovo')
+getLength({ length: 34 })
+// getLength(23) //err
+getLength([])
+
+//:вспомогательные типы - признаны упростить создание или модеификацию сущ типов или интерфейсов
+interface Todo{
+	id: number;
+	title: string;
+	userId: number;
+	completed?: boolean;
+	body?: string;
+}
+const todo1: Partial<Todo> = { //Partial - делает передоваемые св-во не обязательным
+	title: 'купить'
+}
+const todo2: Required<Todo> = { //наоборот обязательным
+	id: 1,
+	title: 'vv',
+	userId: 3,
+	completed: true,
+	body: 'pp'
+}
+const todo3: Readonly<Todo> = { //неизменяемое
+	id: 1,
+	title: 'vv',
+	userId: 3,
+	completed: true,
+	body: 'pp'
+}
+// todo3.id = 4  //err
+
+//:создовать типы где не известны назв св-в, но известно какой будет тип у значений
+const withRecord: Record<string, number> = {
+	age: 45,
+}
+
+//: Pick - позволяет создавать новый тип на основе типа передоваемым первым аргументом, выбирая из него св-ва перед вторым аргументом
+const todo4: Pick<Todo, 'id' | 'title'> = {
+	id: 1,
+	title: 'купить'
+}
+//: Omit - наоборот  позволяет создавать новый тип на основе типа передоваемым первым аргументом, исключая из него св-в переданое вторым арг
+const todo5: Omit<Todo, 'id'> = {
+	userId: 1,
+	title: 'купить'
+}
+
+//: Как скопировать тип свойства из другого интерфейса, при чтобы было др название св-ва
+interface NewTodo{
+	text: Todo['title']
+}
+const newTodo: NewTodo = {
+	text: ''
+}
+
+//: Перечисления (Enums).
+enum AuthProvider{
+	email,
+	google,
+	facebook,
+}
+interface UserData{
+	id: number;
+	authProvider: AuthProvider;
+}
+const userData: UserData = {
+	id: 1,
+	authProvider:2
+}
+if (userData.authProvider === AuthProvider.email) console.log('')
+else if (userData.authProvider === AuthProvider.facebook) console.log('')
+else if (userData.authProvider === AuthProvider.google) console.log('')
+
+
+//: Типизация callback. для функции
+function myOwnForEach<T>(data:T[], callback: (item: T)=> void) {
+	for (let i = 0; i < data.length; i++){
+		callback(data[i])
+	}
+}
+myOwnForEach([1, 2, 3], (item) => {
+	console.log(item)
+})
+
+
+
+
+
+
+
+
+
+
 
 
 
