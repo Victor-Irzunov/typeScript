@@ -1,6 +1,3 @@
-import { runMain } from "module";
-import { type } from "os";
-
 const str: string = "Фродо Бэггинс";
 
 const age: number = 18;
@@ -23,9 +20,8 @@ const obj: object = {
 const str2: any = 'Gogi'
 
 //:safe replacement any
-// let myUnKnow: unknown;
-// myUnKnow.length
 let myUnKnow: unknown;
+// myUnKnow.length //err
 if (typeof myUnKnow === 'string') myUnKnow.length   //already has a type string
 
 //it is better to use rarely
@@ -72,7 +68,7 @@ const n = (message: string): void => {
 }
 
 
-// Реализовать interface Person
+//: Реализовать interface Person
 interface Person {
 	readonly fullName: string;   //?  cannot redefine
 	address: string;
@@ -208,7 +204,7 @@ fetchPost
 
 
 //:
-function getLength<T extends {length: number}>(data: T) {
+function getLength<T extends { length: number }>(data: T) {
 	return data.length;
 }
 getLength('vovo')
@@ -217,7 +213,7 @@ getLength({ length: 34 })
 getLength([])
 
 //:вспомогательные типы - признаны упростить создание или модеификацию сущ типов или интерфейсов
-interface Todo{
+interface Todo {
 	id: number;
 	title: string;
 	userId: number;
@@ -260,7 +256,7 @@ const todo5: Omit<Todo, 'id'> = {
 }
 
 //: Как скопировать тип свойства из другого интерфейса, при чтобы было др название св-ва
-interface NewTodo{
+interface NewTodo {
 	text: Todo['title']
 }
 const newTodo: NewTodo = {
@@ -268,18 +264,18 @@ const newTodo: NewTodo = {
 }
 
 //: Перечисления (Enums).
-enum AuthProvider{
+enum AuthProvider {
 	email,
 	google,
 	facebook,
 }
-interface UserData{
+interface UserData {
 	id: number;
 	authProvider: AuthProvider;
 }
 const userData: UserData = {
 	id: 1,
-	authProvider:2
+	authProvider: 2
 }
 if (userData.authProvider === AuthProvider.email) console.log('')
 else if (userData.authProvider === AuthProvider.facebook) console.log('')
@@ -287,8 +283,8 @@ else if (userData.authProvider === AuthProvider.google) console.log('')
 
 
 //: Типизация callback. для функции
-function myOwnForEach<T>(data:T[], callback: (item: T)=> void) {
-	for (let i = 0; i < data.length; i++){
+function myOwnForEach<T>(data: T[], callback: (item: T) => void) {
+	for (let i = 0; i < data.length; i++) {
 		callback(data[i])
 	}
 }
@@ -298,29 +294,7 @@ myOwnForEach([1, 2, 3], (item) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// interface & class
-//
+//: interface & class
 // Создать интрефейс Maps и имплементировать его.
 // В интерфейсе должен быть метод addMarker который
 // первым арументом принимает широту (число),
@@ -337,8 +311,6 @@ class MapsService implements Maps {
 	}
 }
 
-// Generic
-//
 // Описать тип для функции echo
 // с помощью дженериков.
 const echo = <T>(data: T): T => {
